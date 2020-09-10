@@ -1,4 +1,3 @@
- 
 steps:
 # Generate the kubeconfig file needed to authenticate to the GKE cluster. The root user generates this file with restricted permissions.
 - name: 'gcr.io/cloud-builders/kubectl'
@@ -8,8 +7,8 @@ steps:
     path: '/kube'
   env:
   - 'KUBECONFIG=/kube/config'
-  - 'CLOUDSDK_COMPUTE_ZONE=us-east1-b'
-  - 'CLOUDSDK_CONTAINER_CLUSTER=sync'
+  - 'CLOUDSDK_COMPUTE_ZONE=ZONE'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=CLUSTER_NAME'
   - 'CLOUDSDK_CONTAINER_USE_APPLICATION_DEFAULT_CREDENTIALS=true'
 # Grant read permissions to the kubeconfig file.
 - name: 'bash'
@@ -34,13 +33,3 @@ steps:
 # Validate input configs against any OPA ConstraintTemplates and Constraints it finds in its input.
 - name: 'gcr.io/config-management-release/policy-controller-validate'
   args: ['--input', '/workspace/config-source.yaml']
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'gcr.io/booming-being-283214/my-image', '.']
-  timeout: 500s
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/booming-being-283214/my-image']
-- name: 'gcr.io/cloud-builders/kubectl'
-  args: ['set', 'image', 'deployment/my-deployment-68bdbf6f49', 'my-image-1=gcr.io/booming-being-283214/my-image']
-  env:
-  - 'CLOUDSDK_COMPUTE_ZONE=us-east1-b'
-  - 'CLOUDSDK_CONTAINER_CLUSTER=sync'
