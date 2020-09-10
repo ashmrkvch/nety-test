@@ -4,6 +4,15 @@ metadata:
   name: config-management
 spec:
   # clusterName is required and must be unique among all managed clusters
+# Set to true to install and enable Policy Controller
+  policyController:
+    enabled: true
+    # Uncomment to prevent the template library from being installed
+    # templateLibraryInstalled: false
+    # Uncomment to disable audit, adjust value to set audit interval
+    # auditIntervalSeconds: 0
+    # Uncomment to log all denies and dryrun failures
+    # logDeniesEnabled: true
   clusterName: sync
   git:
     syncRepo: git@github.com:ashmrkvch/nety-test.git
